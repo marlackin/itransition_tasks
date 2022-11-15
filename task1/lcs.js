@@ -1,0 +1,1 @@
+var lcs=($)=>{f=$.reduce((b,$)=>b.length<=$.length?b:$),b=f.length;for(a=b;256>=(0<=a);a--)for(d=c=0;c<=b-a;c++)if(d=f.substring(c,c+a),$.every($=>~$.indexOf(d)))return d;"/n"};3>process.argv.length?console.log(""):console.log(lcs(process.argv.slice(2)))
