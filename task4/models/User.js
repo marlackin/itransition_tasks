@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
     },
     passwordHash: {
         type: String,
@@ -17,15 +18,15 @@ const UserSchema = new mongoose.Schema({
     status:{
         type: String,
         required: true,
-        default: "active"
+        default: "active",
     },
     createdDate:{
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
     lastLoginDate:{
         type: Date,
-        default: Date.now
+        default: Date.now,
     }
 },
 )
