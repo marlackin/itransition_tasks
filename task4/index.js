@@ -1,6 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import {registerValidation} from './validations/auth.js'
+import {registerValidation,loginVadidation} from './validations/auth.js'
 
 import checkAuth from './utils/checkAuth.js'
 
@@ -19,13 +19,13 @@ app.use(express.json())
 
 // app.get('/',checkAuth,UserController.getMe)
 
-app.post('/login',UserController.login)
+app.post('/login',loginVadidation,UserController.login)
 app.post('/register',registerValidation,UserController.register)
 app.get('/',checkAuth,UserController.getAllUsers)
 app.delete('/deleteUser',checkAuth,UserController.deleteUser)
 app.put('/block',checkAuth,UserController.blockUnblock)
 
-app.listen(3000,(err) =>{
+app.listen(5000,(err) =>{
     if (err) {
         console.error(err);
     }
