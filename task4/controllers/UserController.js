@@ -30,6 +30,7 @@ export const register = async(req, res) => {
         const token = jwt.sign({
             _id:user._id,
             status:user.status,
+            email:user.email,
         },
         'secret123',
         {
@@ -76,6 +77,7 @@ export const login = async(req,res)=>{
         const token = jwt.sign({
             _id:user._id,
             status:user.status,
+            email:user.email,
         },
         'secret123',
         {
@@ -131,7 +133,11 @@ export const getAllUsers = async(req, res) => {
 
 export const blockUnblock = async(req, res) => {
     try{
+        // const decoded = jwt.verify(res.token, 'secret123');
+        // console.log(decoded)
         await UserModel.updateMany({_id:{$in:req.body.usersIds.map(id=>new ObjectId(id))}},{$set:{status:req.body.status}})//пример:['1','2','3'] прогоняет каждый элемент массива и преобразовывает их в монгоайди соотв юзера
+        const users = await UserModel.find({_id:{$in:req.body.usersIds.map(id=>new ObjectId(id))}})
+        console.log(users)
         // if(user.status =="banned" || user.status =="delete"){
         //     const token = jwt.sign({
         //         _id:user._id,
@@ -148,8 +154,9 @@ export const blockUnblock = async(req, res) => {
         //     token,
         // })
         // }
+        // console.log(user)
         res.json({
-            success: true
+            ...users,
         })
     }catch(err){
         console.log(err)
