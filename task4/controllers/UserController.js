@@ -98,6 +98,22 @@ export const login = async(req,res)=>{
     }
 }
 
+
+
+export const accessResource = (req,res)=> {
+    const token = req.headers.authorization.split(' ')[1]; 
+    //Authorization: 'Bearer TOKEN'
+    if(!token)
+    {
+        res.status(403).json(
+            {
+                success:false, 
+                message: "Error! Token was not provided."});
+    }
+    //Decoding the token
+    const decodedToken = jwt.verify(token,"secret123" );
+    res.status(200).json({success:true,data:{id: decodedToken._id}});
+}
 // export const getMe = async (req, res) => {
 //     try{
 //         const user = await UserModel.findById(req.userId);

@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import {registerValidation,loginVadidation} from './validations/auth.js'
+import cors from 'cors'
 
 import checkAuth from './utils/checkAuth.js'
 
@@ -11,6 +12,7 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0.d2py2e4.mongodb.net/task4?r
 .catch((err)=>console.log('DB ERROR',err))
 
 const app = express();
+app.use(cors())
 
 app.use(express.json())
 
@@ -24,6 +26,7 @@ app.post('/register',registerValidation,UserController.register)
 app.get('/',checkAuth,UserController.getAllUsers)
 app.delete('/deleteUser',checkAuth,UserController.deleteUser)
 app.put('/block',checkAuth,UserController.blockUnblock)
+app.get('/accessResource',UserController.accessResource)
 
 app.listen(5000,(err) =>{
     if (err) {
