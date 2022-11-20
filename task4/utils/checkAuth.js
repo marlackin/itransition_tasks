@@ -8,7 +8,9 @@ export default async (req,res,next) =>{
             const decoded = jwt.verify(token, 'secret123');
             console.log(decoded)
             const user = await UserModel.findOne({email:decoded.email})
-            if(user.status =="banned" || user.status =="delete" == decoded.status){
+            console.log(user.status)
+            console.log(decoded.status)
+            if(user.status =="banned" == decoded.status){
                user.status = decoded.status
                await user.save()
                console.log('gfdgd')

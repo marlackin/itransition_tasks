@@ -66,9 +66,24 @@ export const login = async(req,res)=>{
                 message: 'Неверный пароль',
             })
         }
-        if(user.status =="banned" || user.status =="delete"){
-            return res.status(401).json({
-                message: 'Пользователь заблокирован или удален'
+        if(user.status =="banned"){
+            const token = jwt.sign({
+                _id:user._id,
+                status:user.status,
+                email:user.email,
+            },
+            'secret123',
+            {
+                expiresIn:'90d',
+            }
+            )
+            const {passwordHash,...userData} = user._doc
+            user.lastLoginDate = Date.now()
+            user.status = 'active'
+            await user.save()
+            return  res.json({
+                ...userData,
+                token,
             })
         }
         user.lastLoginDate = Date.now()
